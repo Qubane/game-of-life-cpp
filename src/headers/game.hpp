@@ -11,9 +11,6 @@
 #include <sys/ioctl.h>
 #endif // Windows/Linux
 
-// Taken from 'https://stackoverflow.com/a/62485211'
-void get_terminal_size(int& width, int& height);
-
 void run();
 
 
@@ -23,7 +20,7 @@ public:
 	Board(int32_t width, int32_t height);
 	~Board();
 
-	void draw_board();
+	void draw_board() const;
 	void step_simulation();
 
 	uint8_t* m_Board = nullptr;
