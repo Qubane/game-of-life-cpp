@@ -28,4 +28,5 @@ public:
 
 	uint8_t* m_Board = nullptr;
 	const int32_t m_Width, m_Height, m_Size;
+	uint64_t m_SimulationStep;
 };

@@ -1,9 +1,10 @@
 #include "headers/game.hpp"
 #include <iostream>
+#include <string>
 
 
 Board::Board(int32_t width, int32_t height)
-	: m_Width(width >> 1), m_Height(height), m_Size((width >> 1) * height)
+	: m_Width(width >> 1), m_Height(height), m_Size((width >> 1) * height), m_SimulationStep()
 {
 	m_Board = new uint8_t[m_Size];
 }
@@ -19,7 +20,7 @@ void Board::draw_board() const
 
 	std::string output = "";
 	uint8_t old_val = 255;
-	for (uint32_t index = 0; index < m_Size; index++)
+	for (uint32_t index = 0; index < m_Size - m_Width; index++)
 	{
 		uint8_t cur_val = m_Board[index];
 		if (cur_val != old_val)
@@ -32,6 +33,7 @@ void Board::draw_board() const
 		}
 		output += "  ";
 	}
+	output += std::to_string(m_SimulationStep);
 	std::cout << output;
 }
 
@@ -74,4 +76,5 @@ void Board::step_simulation()
 		}
 	}
 	m_Board = new_board;
+	m_SimulationStep++;
 }

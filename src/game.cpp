@@ -23,7 +23,7 @@ void run()
     // make board
     Board board(width, height);
 
-    for (int i = 0; i < 230; i++)
+    for (int i = 0; i < 250; i++)
         board.set_cell(rand() % board.m_Width, rand() % board.m_Height, 1);
 
     // game loop
