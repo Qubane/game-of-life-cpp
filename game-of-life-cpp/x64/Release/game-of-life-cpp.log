@@ -1,5 +1,5 @@
 ﻿  board.cpp
-D:\Users\user\Desktop\folders\code\c code\c++\game-of-life-cpp\src\board.cpp(21,33): warning C4018: '<': signed/unsigned mismatch
+D:\Users\user\Desktop\folders\code\c code\c++\game-of-life-cpp\src\board.cpp(23,33): warning C4018: '<': signed/unsigned mismatch
   game.cpp
   main.cpp
   Generating Code...
