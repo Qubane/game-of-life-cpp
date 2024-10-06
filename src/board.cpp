@@ -17,6 +17,7 @@ void Board::draw_board() const
 {
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD({ 0, 0 })); // go to 0 0
 
+	std::string output = "";
 	uint8_t old_val = 255;
 	for (uint32_t index = 0; index < m_Size; index++)
 	{
@@ -25,12 +26,13 @@ void Board::draw_board() const
 		{
 			old_val = cur_val;
 			if (cur_val == 1)
-				std::cout << "\x1b[47m";
+				output += "\x1b[47m";
 			else
-				std::cout << "\x1b[0m";
+				output += "\x1b[0m";
 		}
-		std::cout << "  ";
+		output += "  ";
 	}
+	std::cout << output;
 }
 
 const uint8_t Board::get_cell(int32_t x, int32_t y) const

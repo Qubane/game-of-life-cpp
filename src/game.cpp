@@ -31,6 +31,6 @@ void run()
     {
         board.draw_board();
         board.step_simulation();
-        Sleep(100);
+        //Sleep(100);
     }
 }
