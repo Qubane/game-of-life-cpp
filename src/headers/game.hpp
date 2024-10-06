@@ -1,6 +1,5 @@
 #pragma once
 #include <stdint.h>
-#include "game.h"
 
 
 // Taken from 'https://stackoverflow.com/a/62485211'
@@ -12,21 +11,21 @@
 #include <sys/ioctl.h>
 #endif // Windows/Linux
 
-
 // Taken from 'https://stackoverflow.com/a/62485211'
 void get_terminal_size(int& width, int& height);
 
+void run();
 
 
-class Terminal
+struct Board
 {
 public:
-	Terminal();
+	Board(int32_t width, int32_t height);
+	~Board();
 
-	void draw(const Board& board) const;
+	void draw_board();
+	void step_simulation();
 
-	const int width() const { return m_Width; };
-	const int height() const { return m_Height; };
-private:
-	int m_Width, m_Height;
+	uint8_t* m_Board = nullptr;
+	const int32_t m_Width, m_Height, m_Size;
 };
