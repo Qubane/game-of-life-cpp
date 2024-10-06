@@ -23,7 +23,7 @@ class Terminal
 public:
 	Terminal();
 
-	void draw(const Board& board);
+	void draw(const Board& board) const;
 
 	const int width() const { return m_Width; };
 	const int height() const { return m_Height; };

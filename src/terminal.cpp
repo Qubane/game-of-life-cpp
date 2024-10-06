@@ -1,4 +1,6 @@
 #include "headers/terminal.h"
+#include <conio.h>
+#include <cstdio>
 
 
 // Taken from 'https://stackoverflow.com/a/62485211'
@@ -22,9 +24,25 @@ Terminal::Terminal()
     : m_Width(), m_Height()
 {
     get_terminal_size(m_Width, m_Height);
+    printf("\x1B[?25l");  // make cursor invisible
 }
 
-void Terminal::draw(const Board& board)
+void Terminal::draw(const Board& board) const
 {
-    // implement draw
+    COORD coord = { 0, 0 };
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+    uint8_t old_value = 255;
+    for (uint64_t i = 0; i < (uint64_t)board.width() * board.height(); i++)
+    {
+        uint8_t cur_value = board.get_cell(i);
+        if (old_value != cur_value)
+        {
+            old_value = cur_value;
+            if (cur_value == 1)
+                std::printf("\x1B[47m");
+            else
+                std::printf("\x1B[0m");
+        }
+        std::printf("  ");
+    }
 }
