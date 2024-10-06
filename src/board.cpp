@@ -33,7 +33,43 @@ void Board::draw_board() const
 	}
 }
 
+const uint8_t Board::get_cell(int32_t x, int32_t y) const
+{
+	if (x > -1 && x < m_Width && y > -1 && y < m_Height)
+		return m_Board[x + y * m_Width];
+	return 0;
+}
+
+void Board::set_cell(int32_t x, int32_t y, uint8_t val)
+{
+	if (x > -1 && x < m_Width && y > -1 && y < m_Height)
+		m_Board[x + y * m_Width] = val;
+}
+
 void Board::step_simulation()
 {
-	// implement simulation step
+	// naive implementation
+	uint8_t* new_board = new uint8_t[m_Size];
+	for (int32_t y = 0; y < m_Height; y++)
+	{
+		for (int32_t x = 0; x < m_Width; x++)
+		{
+			// count neighbors
+			uint8_t neighbors = 0;
+			if (get_cell(x + 1, y + 1) == 1) neighbors++;  // 1   1
+			if (get_cell(x + 0, y + 1) == 1) neighbors++;  // 0   1
+			if (get_cell(x - 1, y + 1) == 1) neighbors++;  // -1  1
+
+			if (get_cell(x + 1, y + 0) == 1) neighbors++;  // 1   0
+			if (get_cell(x - 1, y + 0) == 1) neighbors++;  // -1  0
+
+			if (get_cell(x + 1, y - 1) == 1) neighbors++;  // 1  -1
+			if (get_cell(x + 0, y - 1) == 1) neighbors++;  // 0  -1
+			if (get_cell(x - 1, y - 1) == 1) neighbors++;  // -1 -1
+
+			if ((get_cell(x, y) == 1 && neighbors == 2) || neighbors == 3)
+				new_board[x + y * m_Width] = 1;
+		}
+	}
+	m_Board = new_board;
 }

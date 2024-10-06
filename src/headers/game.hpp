@@ -23,6 +23,9 @@ public:
 	void draw_board() const;
 	void step_simulation();
 
+	void set_cell(int32_t x, int32_t y, uint8_t val);
+	const uint8_t get_cell(int32_t x, int32_t y) const;
+
 	uint8_t* m_Board = nullptr;
 	const int32_t m_Width, m_Height, m_Size;
 };
