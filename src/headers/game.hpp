@@ -15,11 +15,11 @@
 void run();
 
 
-class Board
+class Game
 {
 public:
-	Board(int32_t width, int32_t height);
-	~Board();
+	Game(int32_t width, int32_t height);
+	~Game();
 
 	void update_clock();
 	void draw_board() const;

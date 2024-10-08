@@ -3,25 +3,25 @@
 #include <string>
 
 
-Board::Board(int32_t width, int32_t height)
+Game::Game(int32_t width, int32_t height)
 	: m_Width(width >> 1), m_Height(height), m_Size((width >> 1) * height), m_DeltaTime()
 {
 	m_Board = new uint8_t[m_Size];
 	m_CurrentTime = std::chrono::steady_clock::now();
 }
 
-Board::~Board()
+Game::~Game()
 {
 	delete[] m_Board;
 }
 
-void Board::update_clock()
+void Game::update_clock()
 {
 	m_DeltaTime = std::chrono::steady_clock::now() - m_CurrentTime;
 	m_CurrentTime = std::chrono::steady_clock::now();
 }
 
-void Board::draw_board() const
+void Game::draw_board() const
 {
 	// go to 0, 0
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD({ 0, 0 }));
@@ -53,20 +53,20 @@ void Board::draw_board() const
 	std::cout << output;
 }
 
-const uint8_t Board::get_cell(int32_t x, int32_t y) const
+const uint8_t Game::get_cell(int32_t x, int32_t y) const
 {
 	if (x > -1 && x < m_Width && y > -1 && y < m_Height)
 		return m_Board[x + y * m_Width];
 	return 0;
 }
 
-void Board::set_cell(int32_t x, int32_t y, uint8_t val)
+void Game::set_cell(int32_t x, int32_t y, uint8_t val)
 {
 	if (x > -1 && x < m_Width && y > -1 && y < m_Height)
 		m_Board[x + y * m_Width] = val;
 }
 
-void Board::step_simulation()
+void Game::step_simulation()
 {
 	// naive implementation
 	uint8_t* new_board = new uint8_t[m_Size];
