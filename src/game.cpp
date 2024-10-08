@@ -23,14 +23,15 @@ void run()
     // make board
     Board board(width, height);
 
-    for (int i = 0; i < board.m_Size * 0.1f; i++)
+    for (int i = 0; i < board.m_Size * 0.25f; i++)
         board.set_cell(rand() % board.m_Width, rand() % board.m_Height, 1);
 
     // game loop
     while (true)
     {
+        board.update_clock();
         board.draw_board();
         board.step_simulation();
-        //Sleep(100);
+        Sleep(25);
     }
 }

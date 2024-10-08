@@ -1,5 +1,6 @@
 #pragma once
 #include <stdint.h>
+#include <chrono>
 
 
 // Taken from 'https://stackoverflow.com/a/62485211'
@@ -14,12 +15,13 @@
 void run();
 
 
-struct Board
+class Board
 {
 public:
 	Board(int32_t width, int32_t height);
 	~Board();
 
+	void update_clock();
 	void draw_board() const;
 	void step_simulation();
 
@@ -28,5 +30,7 @@ public:
 
 	uint8_t* m_Board = nullptr;
 	const int32_t m_Width, m_Height, m_Size;
-	uint64_t m_SimulationStep;
+
+	std::chrono::steady_clock::time_point m_CurrentTime;
+	std::chrono::nanoseconds m_DeltaTime;
 };

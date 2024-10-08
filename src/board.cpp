@@ -4,9 +4,10 @@
 
 
 Board::Board(int32_t width, int32_t height)
-	: m_Width(width >> 1), m_Height(height), m_Size((width >> 1) * height), m_SimulationStep()
+	: m_Width(width >> 1), m_Height(height), m_Size((width >> 1) * height), m_DeltaTime()
 {
 	m_Board = new uint8_t[m_Size];
+	m_CurrentTime = std::chrono::steady_clock::now();
 }
 
 Board::~Board()
@@ -14,26 +15,41 @@ Board::~Board()
 	delete[] m_Board;
 }
 
+void Board::update_clock()
+{
+	m_DeltaTime = std::chrono::steady_clock::now() - m_CurrentTime;
+	m_CurrentTime = std::chrono::steady_clock::now();
+}
+
 void Board::draw_board() const
 {
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD({ 0, 0 })); // go to 0 0
+	// go to 0, 0
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), COORD({ 0, 0 }));
 
-	std::string output = "";
+	// draw board
 	uint8_t old_val = 255;
-	for (uint32_t index = 0; index < m_Size - m_Width; index++)
+	std::string output = "";
+	for (int32_t index = 0; index < m_Size - m_Width; index++)
 	{
+		// only update color when it changes
 		uint8_t cur_val = m_Board[index];
 		if (cur_val != old_val)
 		{
 			old_val = cur_val;
 			if (cur_val == 1)
-				output += "\x1b[47m";
+				output += "\x1b[47m";	// white
 			else
-				output += "\x1b[0m";
+				output += "\x1b[0m";	// black (reset)
 		}
+
+		// add spaces
 		output += "  ";
 	}
-	output += std::to_string(m_SimulationStep);
+	
+	// add debug info
+	output += std::to_string(m_DeltaTime.count() / 1000) + " ms";
+
+	// printout
 	std::cout << output;
 }
 
@@ -71,10 +87,10 @@ void Board::step_simulation()
 			if (get_cell(x + 0, y - 1) == 1) neighbors++;  // 0  -1
 			if (get_cell(x - 1, y - 1) == 1) neighbors++;  // -1 -1
 
+			// GoL rules
 			if ((get_cell(x, y) == 1 && neighbors == 2) || neighbors == 3)
 				new_board[x + y * m_Width] = 1;
 		}
 	}
 	m_Board = new_board;
-	m_SimulationStep++;
 }
