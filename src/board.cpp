@@ -4,10 +4,13 @@
 
 
 Game::Game(int32_t width, int32_t height)
-	: m_Width(width >> 1), m_Height(height), m_Size((width >> 1) * height), m_DeltaTime()
+	: m_Width(width >> 1), m_Height(height), m_Size((width >> 1) * height), m_DeltaTime(), m_CurrentTime(), m_Padding()
 {
+	// make board
 	m_Board = new uint8_t[m_Size];
-	m_CurrentTime = std::chrono::steady_clock::now();
+
+	// calculate padding (can only be 0 or 1)
+	m_Padding = width % 2;
 }
 
 Game::~Game()
@@ -17,7 +20,10 @@ Game::~Game()
 
 void Game::update_clock()
 {
+	// calculate delta time
 	m_DeltaTime = std::chrono::steady_clock::now() - m_CurrentTime;
+
+	// update current time
 	m_CurrentTime = std::chrono::steady_clock::now();
 }
 
@@ -44,10 +50,16 @@ void Game::draw_board() const
 
 		// add spaces
 		output += "  ";
+
+		// add padding
+		if (m_Padding > 0 && index % m_Width == 0 && index > 0)
+			output += " ";
 	}
 	
 	// add debug info
-	output += std::to_string(m_DeltaTime.count() / 1000) + " ms";
+	// '\x1b[0m' - reset color
+	// '\x1b[0K' - erase from cursor to end of line
+	output += "\n\x1b[0m\x1b[0K" + std::to_string(m_DeltaTime.count() / 1000) + " ns";
 
 	// printout
 	std::cout << output;
@@ -55,6 +67,7 @@ void Game::draw_board() const
 
 const uint8_t Game::get_cell(int32_t x, int32_t y) const
 {
+	// bound check, if within bounds -> return cell, otherwise return 0
 	if (x > -1 && x < m_Width && y > -1 && y < m_Height)
 		return m_Board[x + y * m_Width];
 	return 0;
@@ -62,6 +75,7 @@ const uint8_t Game::get_cell(int32_t x, int32_t y) const
 
 void Game::set_cell(int32_t x, int32_t y, uint8_t val)
 {
+	// bound check, if within bounds -> set cell to given value
 	if (x > -1 && x < m_Width && y > -1 && y < m_Height)
 		m_Board[x + y * m_Width] = val;
 }

@@ -23,6 +23,8 @@ void run()
     // make board
     Game board(width, height);
 
+    // add random points to it, with 25% infill
+    srand(time(0));  // set rand() seed to be time
     for (int i = 0; i < board.m_Size * 0.25f; i++)
         board.set_cell(rand() % board.m_Width, rand() % board.m_Height, 1);
 
@@ -32,6 +34,6 @@ void run()
         board.update_clock();
         board.draw_board();
         board.step_simulation();
-        Sleep(25);
+        // Sleep(25);
     }
 }

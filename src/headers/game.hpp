@@ -21,16 +21,20 @@ public:
 	Game(int32_t width, int32_t height);
 	~Game();
 
+	// game loop
 	void update_clock();
 	void draw_board() const;
 	void step_simulation();
 
+	// board operations
 	void set_cell(int32_t x, int32_t y, uint8_t val);
 	const uint8_t get_cell(int32_t x, int32_t y) const;
 
+	// game variables
 	uint8_t* m_Board = nullptr;
 	const int32_t m_Width, m_Height, m_Size;
-
+private:
+	uint8_t m_Padding;
 	std::chrono::steady_clock::time_point m_CurrentTime;
 	std::chrono::nanoseconds m_DeltaTime;
 };
