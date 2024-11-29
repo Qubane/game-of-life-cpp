@@ -30,7 +30,7 @@
 *.exe
 *.out
 *.app
-/x64/
-/x86/
-/game-of-life-cpp/
-/.vs/
+/x64/*
+/x86/*
+/game-of-life-cpp/*
+/.vs/*

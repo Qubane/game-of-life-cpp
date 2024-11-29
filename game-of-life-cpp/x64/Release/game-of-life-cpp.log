@@ -1,7 +1,0 @@
-﻿  board.cpp
-D:\Users\user\Desktop\folders\code\c code\c++\game-of-life-cpp\src\board.cpp(23,33): warning C4018: '<': signed/unsigned mismatch
-  game.cpp
-  main.cpp
-  Generating Code...
-LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification
-  game-of-life-cpp.vcxproj -> D:\Users\user\Desktop\folders\code\c code\c++\game-of-life-cpp\x64\Release\game-of-life-cpp.exe
